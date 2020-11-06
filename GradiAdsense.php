@@ -81,16 +81,16 @@ class GradiAdsense extends Module implements WidgetInterface
     protected function installFixture($id_lang, $image = null)
     {
         $values['GADSENSE_IMG'][(int)$id_lang] = empty($image) ? 'sale70.png' : $image;
-        $values['GADSENSE_LINK'][(int)$id_lang] = '';
         $values['GADSENSE_TITLE'][(int)$id_lang] = '';
         $values['GADSENSE_CTA'][(int)$id_lang] = '';
+        $values['GADSENSE_LINK_CTA'][(int)$id_lang] = '';
         $values['GADSENSE_DESC'][(int)$id_lang] = '';
         $values['GADSENSE_ESTATE'][(int)$id_lang] = '';
 
         Configuration::updateValue('GADSENSE_IMG', $values['GADSENSE_IMG']);
-        Configuration::updateValue('GADSENSE_LINK', $values['GADSENSE_LINK']);
         Configuration::updateValue('GADSENSE_TITLE', $values['GADSENSE_TITLE']);
         Configuration::updateValue('GADSENSE_CTA', $values['GADSENSE_CTA']);
+        Configuration::updateValue('GADSENSE_LINK_CTA', $values['GADSENSE_LINK_CTA']);
         Configuration::updateValue('GADSENSE_DESC', $values['GADSENSE_DESC']);
         Configuration::updateValue('GADSENSE_ESTATE', $values['GADSENSE_ESTATE']);
     }
@@ -98,9 +98,9 @@ class GradiAdsense extends Module implements WidgetInterface
     public function uninstall()
     {
         Configuration::deleteByName('GADSENSE_IMG');
-        Configuration::deleteByName('GADSENSE_LINK');
         Configuration::deleteByName('GADSENSE_TITLE');
         Configuration::deleteByName('GADSENSE_CTA');
+        Configuration::deleteByName('GADSENSE_LINK_CTA');
         Configuration::deleteByName('GADSENSE_DESC');
         Configuration::deleteByName('GADSENSE_ESTATE');
 
@@ -139,9 +139,9 @@ class GradiAdsense extends Module implements WidgetInterface
                     $update_images_values = true;
                 }
 
-                $values['GADSENSE_LINK'][$lang['id_lang']] = Tools::getValue('GADSENSE_LINK_'.$lang['id_lang']);
                 $values['GADSENSE_TITLE'][$lang['id_lang']] = Tools::getValue('GADSENSE_TITLE_'.$lang['id_lang']);
                 $values['GADSENSE_CTA'][$lang['id_lang']] = Tools::getValue('GADSENSE_CTA_'.$lang['id_lang']);
+                $values['GADSENSE_LINK_CTA'][$lang['id_lang']] = Tools::getValue('GADSENSE_LINK_CTA_'.$lang['id_lang']);
                 $values['GADSENSE_DESC'][$lang['id_lang']] = Tools::getValue('GADSENSE_DESC_'.$lang['id_lang']);
                 $values['GADSENSE_ESTATE'][$lang['id_lang']] = Tools::getValue('GADSENSE_ESTATE');
             }
@@ -150,9 +150,9 @@ class GradiAdsense extends Module implements WidgetInterface
                 Configuration::updateValue('GADSENSE_IMG', $values['GADSENSE_IMG']);
             }
 
-            Configuration::updateValue('GADSENSE_LINK', $values['GADSENSE_LINK']);
             Configuration::updateValue('GADSENSE_TITLE', $values['GADSENSE_TITLE']);
             Configuration::updateValue('GADSENSE_CTA', $values['GADSENSE_CTA']);
+            Configuration::updateValue('GADSENSE_LINK_CTA', $values['GADSENSE_LINK_CTA']);
             Configuration::updateValue('GADSENSE_DESC', $values['GADSENSE_DESC']);
             Configuration::updateValue('GADSENSE_ESTATE', $values['GADSENSE_ESTATE']);
 
@@ -188,13 +188,6 @@ class GradiAdsense extends Module implements WidgetInterface
                     array(
                         'type' => 'text',
                         'lang' => true,
-                        'label' => $this->trans('Gadsense Enlace', array(), 'Modules.GradiAdsense.Admin'),
-                        'name' => 'GADSENSE_LINK',
-                        'desc' => $this->trans('Introduce el enlace asociado. cuando clickeas el enlace te abre una ventana sino te redirige al homepage.', array(), 'Modules.GradiAdsense.Admin')
-                    ),
-                    array(
-                        'type' => 'text',
-                        'lang' => true,
                         'label' => $this->trans('Gadsense Título', array(), 'Modules.GradiAdsense.Admin'),
                         'name' => 'GADSENSE_TITLE',
                         'desc' => $this->trans('Por favor introduce un titulo.', array(), 'Modules.GradiAdsense.Admin')
@@ -206,14 +199,20 @@ class GradiAdsense extends Module implements WidgetInterface
                         'name' => 'GADSENSE_DESC',
                         'desc' => $this->trans('Porfavor introduce una pequeña descripción.', array(), 'Modules.GradiAdsense.Admin')
                     ),
+                    array(
+                        'type' => 'text',
+                        'lang' => true,
+                        'label' => $this->trans('Gadsense CTA', array(), 'Modules.GradiAdsense.Admin'),
+                        'name' => 'GADSENSE_CTA',
+                        'desc' => $this->trans('Porfavor el nombre del CTA.', array(), 'Modules.GradiAdsense.Admin')
+                    ),
 					 array(
                         'type' => 'text',
                         'label' => $this->trans('Gadsense Cta', array(), 'Modules.GradiAdsense.Admin'),
-                        'name' => 'GADSENSE_CTA',
+                        'name' => 'GADSENSE_LINK_CTA',
                         'desc' => $this->trans('Porfavor ingrese el enlace al cta.', array(), 'Modules.GradiAdsense.Admin'),
                         'lang' => true,
-                    )
-					,
+                    ),
 					array(
                         'type' => 'switch',
                         'lang' => true,
@@ -270,9 +269,9 @@ class GradiAdsense extends Module implements WidgetInterface
 
         foreach ($languages as $lang) {
             $fields['GADSENSE_IMG'][$lang['id_lang']] = Tools::getValue('GADSENSE_IMG_'.$lang['id_lang'], Configuration::get('GADSENSE_IMG', $lang['id_lang']));
-            $fields['GADSENSE_LINK'][$lang['id_lang']] = Tools::getValue('GADSENSE_LINK_'.$lang['id_lang'], Configuration::get('GADSENSE_LINK', $lang['id_lang']));
             $fields['GADSENSE_TITLE'][$lang['id_lang']] = Tools::getValue('GADSENSE_TITLE_'.$lang['id_lang'], Configuration::get('GADSENSE_TITLE', $lang['id_lang']));
             $fields['GADSENSE_CTA'][$lang['id_lang']] = Tools::getValue('GADSENSE_CTA_'.$lang['id_lang'], Configuration::get('GADSENSE_CTA', $lang['id_lang']));
+            $fields['GADSENSE_LINK_CTA'][$lang['id_lang']] = Tools::getValue('GADSENSE_LINK_CTA_'.$lang['id_lang'], Configuration::get('GADSENSE_LINK_CTA', $lang['id_lang']));
             $fields['GADSENSE_DESC'][$lang['id_lang']] = Tools::getValue('GADSENSE_DESC_'.$lang['id_lang'], Configuration::get('GADSENSE_DESC', $lang['id_lang']));
             $fields['GADSENSE_ESTATE'][$lang['id_lang']] = Tools::getValue('GADSENSE_ESTATE_'.$lang['id_lang'], (Configuration::get('GADSENSE_ESTATE', true)=="Yes"?1:0));
      
@@ -304,10 +303,10 @@ class GradiAdsense extends Module implements WidgetInterface
         }
 
         return array(
-            'gadsense_link' => $this->updateUrl($gadsense_link),
             'gadsense_estate' => Configuration::get('GADSENSE_ESTATE', $this->context->language->id),
             'gadsense_title' => Configuration::get('GADSENSE_TITLE', $this->context->language->id),
             'gadsense_cta' => Configuration::get('GADSENSE_CTA', $this->context->language->id),
+            'gadsense_link_cta' => Configuration::get('GADSENSE_LINK_CTA', $this->context->language->id),
             'gadsense_desc' => Configuration::get('GADSENSE_DESC', $this->context->language->id)
         );
     }
