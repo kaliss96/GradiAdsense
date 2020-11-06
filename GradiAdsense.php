@@ -49,7 +49,7 @@ class GradiAdsense extends Module implements WidgetInterface
 
         $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
 
-        $this->templateFile = 'module:GradiAdsense/GradiAdsense.tpl';
+        $this->templateFile = 'module:GradiAdsense/views/templates/GradiAdsense.tpl';
     }
 
     public function install()
